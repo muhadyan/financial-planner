@@ -7,4 +7,5 @@ func V1Routes(g *echo.Group, controllers AppModels) {
 
 	user := g.Group("/user")
 	user.POST("/signup", controllers.User.SignUp)
+	user.GET("/verify", controllers.User.Verify)
 }

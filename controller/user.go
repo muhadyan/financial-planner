@@ -37,3 +37,28 @@ func (userController *UserController) SignUp(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, resp)
 }
+
+func (userController *UserController) Verify(c echo.Context) error {
+	params := new(model.VerifyRequest)
+
+	err := c.Bind(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, model.BasicResp{Message: err.Error()})
+	}
+
+	err = validateVerify(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, model.BasicResp{Message: err.Error()})
+	}
+
+	err = userController.UserService.Verify(params)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, model.BasicResp{Message: err.Error()})
+	}
+
+	resp := model.BasicResp{
+		Message: "Thank you! Your account is verified.",
+	}
+
+	return c.JSON(http.StatusOK, resp)
+}

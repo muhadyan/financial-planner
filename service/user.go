@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/muhadyan/financial-planner/config"
 	"github.com/muhadyan/financial-planner/model"
@@ -13,6 +12,7 @@ import (
 
 type UserService struct {
 	UserRepository repository.UserRepository
+	TimeRepository repository.TimeRepository
 }
 
 func (c *UserService) SignUp(params *model.SignUpRequest) (*model.SignUpResponse, error) {
@@ -31,8 +31,8 @@ func (c *UserService) SignUp(params *model.SignUpRequest) (*model.SignUpResponse
 		Password:  string(hashedPassword),
 		Email:     params.Email,
 		Fullname:  params.Fullname,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: c.TimeRepository.TimeNow(),
+		UpdatedAt: c.TimeRepository.TimeNow(),
 	}
 	_, err = c.UserRepository.InsertUser(&user)
 	if err != nil {
@@ -45,7 +45,7 @@ func (c *UserService) SignUp(params *model.SignUpRequest) (*model.SignUpResponse
 			SendTo:            user.Email,
 			Username:          user.Username,
 			UserFullname:      user.Fullname,
-			VerifyAccountLink: fmt.Sprintf("%s/v1/user/verify?userID=%d&userName=%s", config.GetConfig().BaseUrl, user.ID, user.Username),
+			VerifyAccountLink: fmt.Sprintf("%s/v1/user/verify?user_id=%d&username=%s", config.GetConfig().BaseUrl, user.ID, user.Username),
 		}
 		subject := fmt.Sprintf("Account Verification For %s!", user.Fullname)
 		utils.SendMail(templateEmail, sendRequest, subject)
@@ -59,4 +59,22 @@ func (c *UserService) SignUp(params *model.SignUpRequest) (*model.SignUpResponse
 	}
 
 	return &resp, nil
+}
+
+func (c *UserService) Verify(params *model.VerifyRequest) error {
+	err := c.validateVerify(params)
+	if err != nil {
+		return err
+	}
+
+	user := model.User{
+		ID:       uint(params.UserID),
+		IsActive: true,
+	}
+	_, err = c.UserRepository.UpdateUser(&user)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

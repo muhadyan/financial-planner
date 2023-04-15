@@ -27,3 +27,8 @@ type SignUpResponse struct {
 	Email    string `json:"email"`
 	Fullname string `json:"fullname"`
 }
+
+type VerifyRequest struct {
+	UserID   int    `query:"user_id"`
+	Username string `query:"username"`
+}

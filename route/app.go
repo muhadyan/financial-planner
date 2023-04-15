@@ -14,12 +14,14 @@ type AppModels struct {
 func App() AppModels {
 	inMemoryExampleRepository := &repository.InMemoryExampleRepository{}
 	userRepository := &repository.UserRepositoryCtx{}
+	timeRepository := &repository.TimeRepositoryCtx{}
 
 	exampleService := service.ExampleService{
 		ExampleRepository: inMemoryExampleRepository,
 	}
 	userService := service.UserService{
 		UserRepository: userRepository,
+		TimeRepository: timeRepository,
 	}
 
 	exampleController := controller.ExampleController{

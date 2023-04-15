@@ -24,3 +24,15 @@ func validateSignUp(params *model.SignUpRequest) error {
 
 	return nil
 }
+
+func validateVerify(params *model.VerifyRequest) error {
+	if params.UserID == 0 {
+		return utils.ErrEmptyUserID
+	}
+
+	if params.Username == "" {
+		return utils.ErrEmptyUsername
+	}
+
+	return nil
+}
