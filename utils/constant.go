@@ -14,8 +14,8 @@ var (
 	ErrUsernameExist = errors.New("username already exist")
 	ErrEmailExist    = errors.New("email already exist")
 
-	ErrUserIdNotExist   = errors.New("user id is not exist")
-	ErrUsernameNotExist = errors.New("username is not exist")
+	ErrUserNotExist = errors.New("user is not exist")
 
 	ErrUserIDUsernameNotMatch = errors.New("user id and username do not match")
+	ErrUserVerified           = errors.New("user is already verified")
 )

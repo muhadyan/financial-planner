@@ -26,24 +26,20 @@ func (c *UserService) validateSignUp(params *model.SignUpRequest) error {
 }
 
 func (c *UserService) validateVerify(params *model.VerifyRequest) error {
-	userID, err := c.UserRepository.GetUser(&model.User{ID: uint(params.UserID)})
+	user, err := c.UserRepository.GetUser(&model.User{ID: uint(params.UserID)})
 	if err != nil {
 		return err
 	}
-	if userID == nil {
-		return utils.ErrUserIdNotExist
+	if user == nil {
+		return utils.ErrUserNotExist
 	}
 
-	username, err := c.UserRepository.GetUser(&model.User{Username: params.Username})
-	if err != nil {
-		return err
-	}
-	if username == nil {
-		return utils.ErrUsernameNotExist
-	}
-
-	if userID.ID != username.ID {
+	if user.Username != params.Username {
 		return utils.ErrUserIDUsernameNotMatch
+	}
+
+	if user.IsActive {
+		return utils.ErrUserVerified
 	}
 
 	return nil
