@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/muhadyan/financial-planner/config"
-	"github.com/muhadyan/financial-planner/model"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -21,8 +20,8 @@ func Init() {
 	if err != nil {
 		panic("DB Connection Error")
 	}
-	defer db.Close()
-	db.AutoMigrate(&model.Example{})
+	// defer db.Close()
+	// db.AutoMigrate(&model.Example{})
 	fmt.Println("Connected to Database")
 }
 
