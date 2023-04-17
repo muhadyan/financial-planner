@@ -62,3 +62,29 @@ func (userController *UserController) Verify(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, resp)
 }
+
+func (userController *UserController) LogIn(c echo.Context) error {
+	params := new(model.LogInRequest)
+
+	err := c.Bind(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, model.BasicResp{Message: err.Error()})
+	}
+
+	err = validateLogIn(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, model.BasicResp{Message: err.Error()})
+	}
+
+	login, err := userController.UserService.LogIn(params)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, model.BasicResp{Message: err.Error()})
+	}
+
+	resp := model.BasicResp{
+		Message: "Success",
+		Data:    login,
+	}
+
+	return c.JSON(http.StatusOK, resp)
+}

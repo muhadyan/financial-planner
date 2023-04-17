@@ -11,15 +11,15 @@ import (
 
 type UserRepository interface {
 	GetUser(params *model.User) (*model.User, error)
-	InsertUser(params *model.User) (*model.User, error)
-	UpdateUser(params *model.User) (*model.User, error)
+	InsertUser(user *model.User) (*model.User, error)
+	UpdateUser(user *model.User) (*model.User, error)
 }
 
 type UserRepositoryCtx struct{}
 
 func (c *UserRepositoryCtx) GetUser(params *model.User) (*model.User, error) {
 	db := db.DbManager()
-	users := model.User{}
+	user := model.User{}
 
 	if params.ID != 0 {
 		db = db.Where("id = ?", params.ID)
@@ -33,7 +33,7 @@ func (c *UserRepositoryCtx) GetUser(params *model.User) (*model.User, error) {
 		db = db.Where("email = ?", params.Email)
 	}
 
-	err := db.First(&users).Error
+	err := db.First(&user).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
@@ -41,7 +41,7 @@ func (c *UserRepositoryCtx) GetUser(params *model.User) (*model.User, error) {
 		return nil, err
 	}
 
-	return &users, nil
+	return &user, nil
 }
 
 func (c *UserRepositoryCtx) InsertUser(user *model.User) (*model.User, error) {
@@ -64,6 +64,10 @@ func (c *UserRepositoryCtx) UpdateUser(user *model.User) (*model.User, error) {
 
 	if !user.IsActive {
 		update["is_active"] = false
+	}
+
+	if user.Token != "" {
+		update["token"] = user.Token
 	}
 
 	update["updated_at"] = time.Now()

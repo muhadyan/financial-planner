@@ -32,3 +32,13 @@ type VerifyRequest struct {
 	UserID   int    `query:"user_id"`
 	Username string `query:"username"`
 }
+
+type LogInRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type LogInResponse struct {
+	ID    uint   `json:"id"`
+	Token string `json:"token"`
+}

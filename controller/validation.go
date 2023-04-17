@@ -36,3 +36,15 @@ func validateVerify(params *model.VerifyRequest) error {
 
 	return nil
 }
+
+func validateLogIn(params *model.LogInRequest) error {
+	if params.Username == "" {
+		return utils.ErrEmptyUsername
+	}
+
+	if params.Password == "" {
+		return utils.ErrEmptyPassword
+	}
+
+	return nil
+}

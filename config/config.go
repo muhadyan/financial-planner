@@ -17,7 +17,8 @@ type Configuration struct {
 	SendFromAddress string `env:"SEND_FROM_ADDRESS"`
 	MailPassword    string `env:"MAIL_PASSWORD"`
 
-	BaseUrl string `env:"BASE_URL"`
+	BaseUrl   string `env:"BASE_URL"`
+	JWTSecret string `env:"JWT_SECRET"`
 }
 
 func GetConfig() Configuration {

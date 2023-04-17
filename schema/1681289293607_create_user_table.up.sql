@@ -6,6 +6,6 @@ CREATE TABLE users (
     fullname VARCHAR NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT false,
     token TEXT,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

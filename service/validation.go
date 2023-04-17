@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/muhadyan/financial-planner/model"
 	"github.com/muhadyan/financial-planner/utils"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (c *UserService) validateSignUp(params *model.SignUpRequest) error {
@@ -43,4 +44,27 @@ func (c *UserService) validateVerify(params *model.VerifyRequest) error {
 	}
 
 	return nil
+}
+
+func (c *UserService) validateLogIn(params *model.LogInRequest) (*model.User, error) {
+	user, err := c.UserRepository.GetUser(&model.User{Username: params.Username})
+	if err != nil {
+		return nil, err
+	}
+	if user == nil {
+		user, err = c.UserRepository.GetUser(&model.User{Email: params.Username})
+		if err != nil {
+			return nil, err
+		}
+		if user == nil {
+			return nil, utils.ErrUserNotExist
+		}
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(params.Password))
+	if err != nil {
+		return nil, utils.ErrWrongPassword
+	}
+
+	return user, nil
 }

@@ -15,13 +15,17 @@ func App() AppModels {
 	inMemoryExampleRepository := &repository.InMemoryExampleRepository{}
 	userRepository := &repository.UserRepositoryCtx{}
 	timeRepository := &repository.TimeRepositoryCtx{}
+	roleRepository := &repository.RoleRepositoryCtx{}
+	userRoleRepository := &repository.UserRoleRepositoryCtx{}
 
 	exampleService := service.ExampleService{
 		ExampleRepository: inMemoryExampleRepository,
 	}
 	userService := service.UserService{
-		UserRepository: userRepository,
-		TimeRepository: timeRepository,
+		UserRepository:     userRepository,
+		TimeRepository:     timeRepository,
+		RoleRepository:     roleRepository,
+		UserRoleRepository: userRoleRepository,
 	}
 
 	exampleController := controller.ExampleController{

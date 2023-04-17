@@ -14,8 +14,14 @@ var (
 	ErrUsernameExist = errors.New("username already exist")
 	ErrEmailExist    = errors.New("email already exist")
 
-	ErrUserNotExist = errors.New("user is not exist")
+	ErrUserNotExist         = errors.New("user is not exist")
+	ErrRoleNameUserNotExist = errors.New("role name user is not exist")
 
 	ErrUserIDUsernameNotMatch = errors.New("user id and username do not match")
 	ErrUserVerified           = errors.New("user is already verified")
+	ErrWrongPassword          = errors.New("password is not correct")
+)
+
+var (
+	RoleUser = "user"
 )
