@@ -13,6 +13,7 @@ var (
 	ErrEmptyBuyDate  = errors.New("gold buy date cannot be empty")
 
 	ErrInvalidUserID   = errors.New("user id must be more than 0")
+	ErrInvalidWeight   = errors.New("gold weight must be more than 0")
 	ErrInvalidBuyPrice = errors.New("gold buy price must be more than 0")
 	ErrInvalidBuyDate  = fmt.Errorf("gold buy date must be in %s format", FormatDate)
 

@@ -5,6 +5,7 @@ import "time"
 type UserGold struct {
 	ID        uint       `gorm:"primary_key"`
 	UserID    int        `json:"user_id"`
+	Weight    float64    `json:"weight"`
 	BuyPrice  float64    `json:"buy_price"`
 	SellPrice *float64   `json:"sell_price"`
 	BuyDate   time.Time  `json:"buy_date"`
@@ -15,6 +16,7 @@ type UserGold struct {
 
 type CreateUserGoldRequest struct {
 	UserID   int     `json:"user_id"`
+	Weight   float64 `json:"weight"`
 	BuyPrice float64 `json:"buy_price"`
 	BuyDate  string  `json:"buy_date"`
 }
@@ -22,6 +24,7 @@ type CreateUserGoldRequest struct {
 type CreateUserGoldResponse struct {
 	ID       int     `json:"id"`
 	UserID   int     `json:"user_id"`
+	Weight   float64 `json:"weight"`
 	BuyPrice float64 `json:"buy_price"`
 	BuyDate  string  `json:"buy_date"`
 }

@@ -51,6 +51,10 @@ func validateLogIn(params *model.LogInRequest) error {
 }
 
 func validateCreateUserGold(params *model.CreateUserGoldRequest) error {
+	if params.Weight <= 0.0 {
+		return utils.ErrInvalidWeight
+	}
+
 	if params.BuyPrice <= 0.0 {
 		return utils.ErrInvalidBuyPrice
 	}

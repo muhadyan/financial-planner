@@ -1,6 +1,7 @@
 CREATE TABLE user_golds (
   id serial PRIMARY KEY,
   user_id int4 NOT NULL,
+  weight float NOT NULL,
   buy_price float NOT NULL,
   sell_price float,
   buy_date date NOT NULL,

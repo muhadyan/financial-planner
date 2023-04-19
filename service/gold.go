@@ -26,6 +26,7 @@ func (c *GoldService) Create(params *model.CreateUserGoldRequest) (*model.Create
 
 	userGold, err := c.UserGoldRepository.InsertUserGold(&model.UserGold{
 		UserID:   params.UserID,
+		Weight:   params.Weight,
 		BuyPrice: params.BuyPrice,
 		BuyDate:  buyDate,
 	})
@@ -36,6 +37,7 @@ func (c *GoldService) Create(params *model.CreateUserGoldRequest) (*model.Create
 	resp := model.CreateUserGoldResponse{
 		ID:       int(userGold.ID),
 		UserID:   userGold.UserID,
+		Weight:   userGold.Weight,
 		BuyPrice: userGold.BuyPrice,
 		BuyDate:  userGold.BuyDate.String(),
 	}
