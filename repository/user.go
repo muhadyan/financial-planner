@@ -33,6 +33,14 @@ func (c *UserRepositoryCtx) GetUser(params *model.User) (*model.User, error) {
 		db = db.Where("email = ?", params.Email)
 	}
 
+	if params.IsActive {
+		db = db.Where("is_active = ?", params.IsActive)
+	}
+
+	if params.Token != nil {
+		db = db.Where("token = ?", params.Token)
+	}
+
 	err := db.First(&user).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -62,11 +70,7 @@ func (c *UserRepositoryCtx) UpdateUser(user *model.User) (*model.User, error) {
 		update["is_active"] = true
 	}
 
-	if !user.IsActive {
-		update["is_active"] = false
-	}
-
-	if user.Token != "" {
+	if user.Token != nil {
 		update["token"] = user.Token
 	}
 

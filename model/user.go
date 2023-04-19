@@ -9,7 +9,7 @@ type User struct {
 	Email     string    `json:"email"`
 	Fullname  string    `json:"fullname"`
 	IsActive  bool      `json:"is_active"`
-	Token     string    `json:"token"`
+	Token     *string    `json:"token"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

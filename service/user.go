@@ -149,7 +149,7 @@ func (c *UserService) LogIn(params *model.LogInRequest) (*model.LogInResponse, e
 
 	_, err = c.UserRepository.UpdateUser(&model.User{
 		ID:    user.ID,
-		Token: token,
+		Token: &token,
 	})
 	if err != nil {
 		return nil, err

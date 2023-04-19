@@ -47,12 +47,18 @@ func (c *UserService) validateVerify(params *model.VerifyRequest) error {
 }
 
 func (c *UserService) validateLogIn(params *model.LogInRequest) (*model.User, error) {
-	user, err := c.UserRepository.GetUser(&model.User{Username: params.Username})
+	user, err := c.UserRepository.GetUser(&model.User{
+		Username: params.Username,
+		IsActive: true,
+	})
 	if err != nil {
 		return nil, err
 	}
 	if user == nil {
-		user, err = c.UserRepository.GetUser(&model.User{Email: params.Username})
+		user, err = c.UserRepository.GetUser(&model.User{
+			Email:    params.Username,
+			IsActive: true,
+		})
 		if err != nil {
 			return nil, err
 		}
@@ -67,4 +73,20 @@ func (c *UserService) validateLogIn(params *model.LogInRequest) (*model.User, er
 	}
 
 	return user, nil
+}
+
+func (c *GoldService) validateCreateUserGold(params *model.CreateUserGoldRequest) error {
+	user, err := c.UserRepository.GetUser(&model.User{
+		ID:       uint(params.UserID),
+		IsActive: true,
+	})
+	if err != nil {
+		return err
+	}
+
+	if user == nil {
+		return utils.ErrUserNotExist
+	}
+
+	return nil
 }

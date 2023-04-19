@@ -1,6 +1,7 @@
 package controller
 
 import (
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/muhadyan/financial-planner/model"
 	"github.com/muhadyan/financial-planner/utils"
 )
@@ -26,8 +27,8 @@ func validateSignUp(params *model.SignUpRequest) error {
 }
 
 func validateVerify(params *model.VerifyRequest) error {
-	if params.UserID == 0 {
-		return utils.ErrEmptyUserID
+	if params.UserID <= 0 {
+		return utils.ErrInvalidUserID
 	}
 
 	if params.Username == "" {
@@ -44,6 +45,23 @@ func validateLogIn(params *model.LogInRequest) error {
 
 	if params.Password == "" {
 		return utils.ErrEmptyPassword
+	}
+
+	return nil
+}
+
+func validateCreateUserGold(params *model.CreateUserGoldRequest) error {
+	if params.BuyPrice <= 0.0 {
+		return utils.ErrInvalidBuyPrice
+	}
+
+	if params.BuyDate == "" {
+		return utils.ErrEmptyBuyDate
+	}
+
+	err := validation.Validate(params.BuyDate, validation.Date(utils.FormatDate))
+	if err != nil {
+		return utils.ErrInvalidBuyDate
 	}
 
 	return nil

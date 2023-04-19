@@ -9,6 +9,7 @@ import (
 type AppModels struct {
 	Example controller.ExampleController
 	User    controller.UserController
+	Gold    controller.GoldController
 }
 
 func App() AppModels {
@@ -17,6 +18,7 @@ func App() AppModels {
 	timeRepository := &repository.TimeRepositoryCtx{}
 	roleRepository := &repository.RoleRepositoryCtx{}
 	userRoleRepository := &repository.UserRoleRepositoryCtx{}
+	userGoldRepository := &repository.UserGoldRepositoryCtx{}
 
 	exampleService := service.ExampleService{
 		ExampleRepository: inMemoryExampleRepository,
@@ -27,6 +29,10 @@ func App() AppModels {
 		RoleRepository:     roleRepository,
 		UserRoleRepository: userRoleRepository,
 	}
+	goldService := service.GoldService{
+		UserGoldRepository: userGoldRepository,
+		UserRepository:     userRepository,
+	}
 
 	exampleController := controller.ExampleController{
 		ExampleService: exampleService,
@@ -34,9 +40,13 @@ func App() AppModels {
 	userController := controller.UserController{
 		UserService: userService,
 	}
+	goldController := controller.GoldController{
+		GoldService: goldService,
+	}
 
 	return AppModels{
 		Example: exampleController,
 		User:    userController,
+		Gold:    goldController,
 	}
 }
