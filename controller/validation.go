@@ -70,3 +70,15 @@ func validateCreateUserGold(params *model.CreateUserGoldRequest) error {
 
 	return nil
 }
+
+func validateGetUnrealized(params *model.GetUnrealizedRequest) error {
+	if params.Page < 1 {
+		return utils.ErrInvalidPage
+	}
+
+	if params.Limit < 1 {
+		return utils.ErrInvalidPage
+	}
+
+	return nil
+}

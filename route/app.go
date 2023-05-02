@@ -13,13 +13,16 @@ type AppModels struct {
 }
 
 func App() AppModels {
+	// repository
 	inMemoryExampleRepository := &repository.InMemoryExampleRepository{}
 	userRepository := &repository.UserRepositoryCtx{}
 	timeRepository := &repository.TimeRepositoryCtx{}
 	roleRepository := &repository.RoleRepositoryCtx{}
 	userRoleRepository := &repository.UserRoleRepositoryCtx{}
 	userGoldRepository := &repository.UserGoldRepositoryCtx{}
+	currentGoldRepository := &repository.CurrentGoldRepositoryCtx{}
 
+	// service
 	exampleService := service.ExampleService{
 		ExampleRepository: inMemoryExampleRepository,
 	}
@@ -30,10 +33,12 @@ func App() AppModels {
 		UserRoleRepository: userRoleRepository,
 	}
 	goldService := service.GoldService{
-		UserGoldRepository: userGoldRepository,
-		UserRepository:     userRepository,
+		UserGoldRepository:    userGoldRepository,
+		UserRepository:        userRepository,
+		CurrentGoldRepository: currentGoldRepository,
 	}
 
+	// controller
 	exampleController := controller.ExampleController{
 		ExampleService: exampleService,
 	}

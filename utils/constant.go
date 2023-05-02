@@ -12,6 +12,9 @@ var (
 	ErrEmptyUsername = errors.New("username cannot be empty")
 	ErrEmptyBuyDate  = errors.New("gold buy date cannot be empty")
 
+	ErrInvalidPage  = errors.New("page cannot be less than 1")
+	ErrInvalidLimit = errors.New("limit cannot be less than 1")
+
 	ErrInvalidUserID   = errors.New("user id must be more than 0")
 	ErrInvalidWeight   = errors.New("gold weight must be more than 0")
 	ErrInvalidBuyPrice = errors.New("gold buy price must be more than 0")

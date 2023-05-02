@@ -90,3 +90,19 @@ func (c *GoldService) validateCreateUserGold(params *model.CreateUserGoldRequest
 
 	return nil
 }
+
+func (c *GoldService) validateGetUnrealized(params *model.GetUnrealizedRequest) error {
+	user, err := c.UserRepository.GetUser(&model.User{
+		ID:       uint(params.UserID),
+		IsActive: true,
+	})
+	if err != nil {
+		return err
+	}
+
+	if user == nil {
+		return utils.ErrUserNotExist
+	}
+
+	return nil
+}
