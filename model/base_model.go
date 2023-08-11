@@ -1,9 +1,14 @@
 package model
 
 var (
-	DefaultPage = 1
+	DefaultPage  = 1
 	DefaultLimit = 10
 )
+
+type PagiantionReq struct {
+	Page  int `json:"page" form:"page" query:"page"`
+	Limit int `json:"limit" form:"limit" query:"limit"`
+}
 
 type BasedFilter struct {
 	Limit   int

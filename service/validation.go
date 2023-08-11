@@ -91,10 +91,94 @@ func (c *GoldService) validateCreateUserGold(params *model.CreateUserGoldRequest
 	return nil
 }
 
-func (c *GoldService) validateGetUnrealized(params *model.GetUnrealizedRequest) error {
+func (c *GoldService) validateUpdateUserGold(params *model.UpdateUserGoldRequest) error {
+	userGold, err := c.UserGoldRepository.GetUserGold(&model.UserGold{
+		ID: uint(params.ID),
+	})
+	if err != nil {
+		return err
+	}
+
+	if userGold == nil {
+		return utils.ErrUserGoldNotExist
+	}
+
+	if userGold.UserID != params.UserID {
+		return utils.ErrUnauthorizedUpdate
+	}
+
+	return nil
+}
+
+func (c *GoldService) validateDeleteUserGold(id, userID int) error {
+	userGold, err := c.UserGoldRepository.GetUserGold(&model.UserGold{
+		ID: uint(id),
+	})
+	if err != nil {
+		return err
+	}
+
+	if userGold == nil {
+		return utils.ErrUserGoldNotExist
+	}
+
+	if userGold.UserID != userID {
+		return utils.ErrUnauthorizedDelete
+	}
+
+	return nil
+}
+
+func (c *GoldService) validateFindUserGold(userGold *model.UserGold, userID int) error {
+	if userGold == nil {
+		return utils.ErrUserGoldNotExist
+	}
+
+	if userGold.UserID != userID {
+		return utils.ErrUnauthorizedDelete
+	}
+
+	return nil
+}
+
+func (c *GoldService) validateExistUser(userID int) error {
 	user, err := c.UserRepository.GetUser(&model.User{
-		ID:       uint(params.UserID),
+		ID:       uint(userID),
 		IsActive: true,
+	})
+	if err != nil {
+		return err
+	}
+
+	if user == nil {
+		return utils.ErrUserNotExist
+	}
+
+	return nil
+}
+
+func (c *GoldService) validateSellGold(params *model.SellGoldRequest) error {
+	userGold, err := c.UserGoldRepository.GetUserGold(&model.UserGold{
+		ID: uint(params.ID),
+	})
+	if err != nil {
+		return err
+	}
+
+	if userGold == nil {
+		return utils.ErrUserGoldNotExist
+	}
+
+	if userGold.UserID != params.UserID {
+		return utils.ErrUnauthorizedUpdate
+	}
+
+	return nil
+}
+
+func (c *GoldService) validateDashboardUserGold(params *model.DashboardUserGoldRequest) error {
+	user, err := c.UserRepository.GetUser(&model.User{
+		ID: uint(params.UserID),
 	})
 	if err != nil {
 		return err
