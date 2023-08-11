@@ -16,5 +16,11 @@ func V1Routes(g *echo.Group, controllers AppModels) {
 
 	gold := g.Group("/gold", middleware.JWTVerify([]string{utils.RoleUser}))
 	gold.POST("", controllers.Gold.Create)
+	gold.GET("", controllers.Gold.FindAll)
+	gold.GET("/:id", controllers.Gold.Find)
+	gold.PATCH("/:id", controllers.Gold.Update)
+	gold.DELETE("/:id", controllers.Gold.Delete)
 	gold.GET("/unrealized", controllers.Gold.GetUnrealized)
+	gold.POST("/sell/:id", controllers.Gold.Sell)
+	gold.POST("/dashboard", controllers.Gold.Dashboard)
 }
